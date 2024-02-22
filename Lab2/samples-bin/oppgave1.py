@@ -1,15 +1,5 @@
 import numpy as np
 
-#samplingfrekvens
-#fs =  1000
-
-#placeholder for antall sampler
-#n = 10
-
-#array for n sampler for lydsignal som mottat fra henholdsvis mic 1 & 2
-#x = np.zeros(n)
-#y = np.zeros(n)
-
 #funksjon som tar inn to array x1 og x2 og samplingfrekvens, og gir ut tidsforsinkelsen i sekund.
 def tidsforsinkelse(x,y,fs):
     #kryskorrelasjon mellom x1 og x2, tar absoluttverdi for di vi kun er interessert i positive verdier
