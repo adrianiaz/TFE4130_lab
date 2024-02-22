@@ -4,11 +4,10 @@ import matplotlib.pyplot as plt
 from scipy.signal import get_window
 from scipy.signal import detrend
 import oppgave1
+import math
 
 #Sampling frequency
 fs = 31250
-
-
 
 def raspi_import(path, channels=5):
 
@@ -27,7 +26,7 @@ def raspi_import(path, channels=5):
 # Import data from bin file
 if __name__ == "__main__":
     sample_period, data = raspi_import(sys.argv[1] if len(sys.argv) > 1
-            else 'mic-test2.bin')
+            else 'mic-90gr-1.bin')
 
 data=(data/4096)*3.3 #scale data to volts
 data=detrend(data, axis=0, type='constant') #remove DC offset
@@ -45,11 +44,14 @@ print(n21)
 print(n31)
 print(n32)
 
+x = -(n21 - n31 - 2*n32)
+y = np.sqrt(3)*(n21 + n31)
 def theta(n21, n31, n32):
-    theta = np.arctan2(-(np.sqrt(3)*((n21 + n31)/(n21 -n31 - 2*n32))))
+    theta = np.arctan2(x, y)
     return theta
-
-print(theta(n21, n31, n32))
+angle = theta(n21, n31, n32)
+angle = math.degrees(angle)
+print(angle)
 
 
 N = len(data) # Number of samples, N = 31250
