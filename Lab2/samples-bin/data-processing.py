@@ -3,6 +3,7 @@ import sys
 import matplotlib.pyplot as plt
 from scipy.signal import get_window
 from scipy.signal import detrend
+import oppgave1
 
 
 def raspi_import(path, channels=5):
@@ -22,10 +23,23 @@ def raspi_import(path, channels=5):
 # Import data from bin file
 if __name__ == "__main__":
     sample_period, data = raspi_import(sys.argv[1] if len(sys.argv) > 1
-            else 'mic-test1.bin')
+            else 'mic-test2.bin')
 
 data=(data/4096)*3.3 #scale data to volts
 data=detrend(data, axis=0, type='constant') #remove DC offset
+
+mic3 = data[:,2]
+mic2 = data[:,3]
+mic1 = data[:,4]
+
+fs = 31250
+
+sample_forsinkelse21 = oppgave1.tidsforsinkelse(mic2,mic1, fs)
+sample_forsinkelse31 = oppgave1.tidsforsinkelse(mic3,mic1, fs)
+sample_forsinkelse32 = oppgave1.tidsforsinkelse(mic3,mic2, fs)
+print(sample_forsinkelse21)
+print(sample_forsinkelse31)
+print(sample_forsinkelse32)
 
 N = len(data) # Number of samples, N = 31250
 M = 2**15 # Number of samples, M = 32768
