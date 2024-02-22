@@ -5,6 +5,10 @@ from scipy.signal import get_window
 from scipy.signal import detrend
 import oppgave1
 
+#Sampling frequency
+fs = 31250
+
+
 
 def raspi_import(path, channels=5):
 
@@ -32,14 +36,21 @@ mic3 = data[:,2]
 mic2 = data[:,3]
 mic1 = data[:,4]
 
-fs = 31250
 
-sample_forsinkelse21 = oppgave1.tidsforsinkelse(mic2,mic1, fs)
-sample_forsinkelse31 = oppgave1.tidsforsinkelse(mic3,mic1, fs)
-sample_forsinkelse32 = oppgave1.tidsforsinkelse(mic3,mic2, fs)
-print(sample_forsinkelse21)
-print(sample_forsinkelse31)
-print(sample_forsinkelse32)
+#sampleforsinkelser
+n21 = oppgave1.tidsforsinkelse(mic2,mic1, fs)
+n31 = oppgave1.tidsforsinkelse(mic3,mic1, fs)
+n32 = oppgave1.tidsforsinkelse(mic3,mic2, fs)
+print(n21)
+print(n31)
+print(n32)
+
+def theta(n21, n31, n32):
+    theta = np.arctan2(-(np.sqrt(3)*((n21 + n31)/(n21 -n31 - 2*n32))))
+    return theta
+
+print(theta(n21, n31, n32))
+
 
 N = len(data) # Number of samples, N = 31250
 M = 2**15 # Number of samples, M = 32768
