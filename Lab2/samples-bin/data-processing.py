@@ -35,7 +35,7 @@ time_scale_ms = sample_period * np.arange(N)*1000  # Time axis [ms]
 for i in range(0,5):
     plt.plot(time_scale_ms, data[:,i])
 #plt.xlim(0,1)
-plt.title('Sinussignal i tidsdomenet')
+plt.title('Støysignal fra mikrofon')
 plt.xlabel('Tid [ms]')
 plt.ylabel('Amplitude [V]')
 plt.legend(['ADC1', 'ADC2', 'MIC3 - ADC3', 'MIC2 - ADC4', 'MIC1 - ADC5'])
