@@ -26,7 +26,7 @@ def raspi_import(path, channels=5):
 # Import data from bin file
 if __name__ == "__main__":
     sample_period, data = raspi_import(sys.argv[1] if len(sys.argv) > 1
-            else 'mic-n180-10.bin', 'mic-n180-9.bin')
+            else 'mic-0-15.bin') 
 
 data=(data/4096)*3.3 #scale data to volts
 data=detrend(data, axis=0, type='constant') #remove DC offset
@@ -41,7 +41,7 @@ n31 = oppgave1.tidsforsinkelse(mic3,mic1, fs)
 n32 = oppgave1.tidsforsinkelse(mic3,mic2, fs)
 print(n21)
 print(n31)
-print(n32)
+print(n32) 
 
 x = (n21 - n31 - 2*n32)
 y = np.sqrt(3)*(n21 + n31)
@@ -51,6 +51,7 @@ def theta(a,b):
 angle = theta(y,x)
 angle = math.degrees(angle)
 print('Theta = ', angle)
+
 
 
 N = len(data) # Number of samples, N = 31250
