@@ -23,7 +23,8 @@ oxy = 0.8 # Blood oxygenation
 mua_other = 25 # Background absorption due to collagen, et cetera
 mua_blood = (mua_blood_oxy(wavelength)*oxy # Absorption due to
             + mua_blood_deoxy(wavelength)*(1-oxy)) # pure blood
-mua = mua_blood*bvf + mua_other
+def mua(bloodVolumeFraction = bvf): 
+    return mua_blood*bloodVolumeFraction + mua_other
 
 # reduced scattering coefficient ($\mu_s^\prime$ in lab text)
 # the numerical constants are thanks to N. Bashkatov, E. A. Genina and
@@ -35,9 +36,15 @@ musr = 100 * (17.6*(wavelength/500)**-4 + 18.78*(wavelength/500)**-0.22)
 # mua and musr are now available as shape (3,) arrays
 # Red, green and blue correspond to indexes 0, 1 and 2, respectively
 
-print("mua: ", mua, "\nmusr: ", musr)
+print("mua: ", mua(), "\nmusr: ", musr)
+
 #oppg1 a)
-pen_depth = np.sqrt(1/(3*mua*(musr + mua)))
+
+def pen_depth_func(bloodVolumeFraction = bvf):
+    return np.sqrt(1/(3*mua(bloodVolumeFraction)*(musr + mua(bloodVolumeFraction))))
+
+pen_depth = pen_depth_func()
+
 
 
 pen_depth_lst = np.array([
@@ -53,8 +60,8 @@ print("1a)\n",tabulate(pen_depth_lst, headers=['Color', 'Penetration depth [mete
 fing_thickness = 2.2*10**(-2) #meters
 
 
-def transmittans(d):
-    C = np.sqrt(3*mua*(musr + mua))
+def transmittans(d, bloodVolumeFraction = bvf):
+    C = np.sqrt(3*mua(bloodVolumeFraction)*(musr + mua(bloodVolumeFraction)))
     return np.exp(-C*d)
 
 transmittans_fing = transmittans(fing_thickness)
@@ -69,4 +76,34 @@ print("1b)\n",tabulate(transmittans_lst, headers=['Color', 'Transmittans gjennom
 
 #oppg1 c)
 
-#antar at mesteparten av refletert lys er som følge av 
+#antar at mesteparten av refletert lys er som følge av lys som reflekteres innenfor 1 penetrasjonsdybde, altså se oppga 1a
+
+# reflektans_fing = transmittans(2*pen_depth)
+# print(reflektans_fing)
+
+# reflektans_lst = np.array([
+#     ["Red", reflektans_fing[0]],
+#     ["Green", reflektans_fing[1]],
+#     ["Blue", reflektans_fing[2]]
+# ])
+
+# print("1c)\n",tabulate(reflektans_lst, headers=['Color', 'Reflektans fra en {:.3}m finger'.format(fing_thickness)], tablefmt='grid'))
+
+#oppg1 d)
+bvf_vein = 1
+vein_diameter = 300*10**(-6) #meter
+
+transmittance_vein = transmittans(vein_diameter, bvf_vein) #1bvf
+transmittance_tissue = transmittans(vein_diameter) #0.01bvf
+
+print("vein: ", transmittance_vein , "\ntissue: ", transmittance_tissue)
+
+kontrast = np.abs(transmittance_vein - transmittance_tissue)/transmittance_tissue
+
+pulsutslag_lst = np.array([
+    ["Red", transmittance_vein[0], transmittance_tissue[0], kontrast[0]],
+    ["Green", transmittance_vein[1], transmittance_tissue[1], kontrast[1]],
+    ["Blue", transmittance_vein[2], transmittance_tissue[2], kontrast[2]]
+])
+
+print("1d)\n",tabulate(pulsutslag_lst, headers=['Color', 'Transmittans høyt blodvolum', "transmittans lavt blodvolum", kontrast], tablefmt='grid'))
