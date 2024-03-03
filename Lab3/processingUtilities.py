@@ -2,6 +2,13 @@ import numpy as np
 import matplotlib.pyplot as plt
 from scipy.signal import butter, lfilter, find_peaks, freqz
 
+#text-to-array
+def txt_to_arr(file_path):
+    # Read data from the text file
+    data = np.loadtxt(file_path)
+    return data
+
+
 #funksjon som tar inn ett array data og samplingfrekvens, og spytter ut absoluttverdi av autokorrelasjon
 def autocorrelate(data):
     #Vi får her at len(crosscorr) = len(x1) + len(x2) - 1
