@@ -3,8 +3,8 @@ from tabulate import tabulate
 
 
 
-muabo = np.genfromtxt("muabo.txt", delimiter=",")
-muabd = np.genfromtxt("muabd.txt", delimiter=",")
+muabo = np.genfromtxt("forberedelsesoppgaver/muabo.txt", delimiter=",")
+muabd = np.genfromtxt("forberedelsesoppgaver/muabd.txt", delimiter=",")
 
 red_wavelength = 600 # Replace with wavelength in nanometres
 green_wavelength = 515 # Replace with wavelength in nanometres
@@ -78,16 +78,18 @@ print("1b)\n",tabulate(transmittans_lst, headers=['Color', 'Transmittans gjennom
 
 #antar at mesteparten av refletert lys er som følge av lys som reflekteres innenfor 1 penetrasjonsdybde, altså se oppga 1a
 
-# reflektans_fing = transmittans(2*pen_depth)
-# print(reflektans_fing)
+def reflektans():
+    return np.sqrt(3*((musr/mua())+1))
 
-# reflektans_lst = np.array([
-#     ["Red", reflektans_fing[0]],
-#     ["Green", reflektans_fing[1]],
-#     ["Blue", reflektans_fing[2]]
-# ])
+reflektans_fing = reflektans()
 
-# print("1c)\n",tabulate(reflektans_lst, headers=['Color', 'Reflektans fra en {:.3}m finger'.format(fing_thickness)], tablefmt='grid'))
+reflektans_lst = np.array([
+    ["Red", reflektans_fing[0]],
+    ["Green", reflektans_fing[1]],
+    ["Blue", reflektans_fing[2]]
+])
+
+print("1c)\n",tabulate(reflektans_lst, headers=['Color', 'Reflektans fra en {:.3}m finger'.format(fing_thickness)], tablefmt='grid'))
 
 #oppg1 d)
 bvf_vein = 1

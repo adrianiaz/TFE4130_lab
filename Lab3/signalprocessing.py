@@ -5,7 +5,7 @@ import processingUtilities as pu
 #Set global variables
 lowcut = 10.0  # Lower cutoff frequency
 highcut = 50.0  # Upper cutoff frequency
-fs = 31250  # Sampling frequency
+fs = 30  # Sampling frequency
 order = 4  # Filter order
 
 file_path = "postprocessing/test1.txt"  # Path file to txt samplefile
@@ -19,8 +19,17 @@ def main():
 
     #0. create data file from txt-file
     data_array = pu.txt_to_arr(file_path)
-    for i in range(len(data_array)):
-        print(data_array[i])
+
+    #0.5. divide it up into its component channels. every index of the list represents the sample number
+    red = []
+    green = []
+    blue = []
+    for row in range(data_array):
+        red += row[0]
+        green += row[1]
+        blue += row[2]
+    #make it 
+
     #1. bandpass-filter
     data_bndpass = pu.butter_bandpass_filter(data_array[0],lowcut, highcut, fs)
 
