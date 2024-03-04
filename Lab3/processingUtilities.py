@@ -20,7 +20,7 @@ def get_peaks(data):
     peaks, _ = find_peaks(data)
     return peaks
 
-#Bandpassfilters
+#filters
 def butter_bandpass(lowcut, highcut, fs, order=4):
     nyquist = 0.5 * fs
     low = lowcut / nyquist
@@ -31,6 +31,18 @@ def butter_bandpass_filter(data, lowcut, highcut, fs, order=4):
     b, a = butter_bandpass(lowcut, highcut, fs, order=order)
     y = lfilter(b, a, data)
     return y
+
+def butter_lowpass(cutoff_frequency, fs, order=4):
+    nyquist = 0.5 * fs
+    normal_cutoff = cutoff_frequency / nyquist
+    b, a = butter(order, normal_cutoff, btype='low', analog=False)
+    return b, a
+
+def butter_lowpass_filter(data, cutoff_frequency, fs, order=4):
+    b, a = butter_lowpass(cutoff_frequency, fs, order=order)
+    y = lfilter(b, a, data)
+    return y
+
 
 #SNR
 

@@ -22,6 +22,9 @@ import sys
 import cv2
 import numpy as np
 
+
+#Run this from terminal  python3 read_video_from_roi.py ./samples/testvideo.mp4 ./postprocessing/test1.txt 
+
 #CLI options
 if len(sys.argv) < 3:
     print("Select smaller ROI of a video file, and save the mean of each image channel to file, one column per color channel (R, G, B), each row corresponding to a video frame number.")

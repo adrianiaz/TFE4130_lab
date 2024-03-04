@@ -108,4 +108,4 @@ pulsutslag_lst = np.array([
     ["Blue", transmittance_vein[2], transmittance_tissue[2], kontrast[2]]
 ])
 
-print("1d)\n",tabulate(pulsutslag_lst, headers=['Color', 'Transmittans høyt blodvolum', "transmittans lavt blodvolum", kontrast], tablefmt='grid'))
+print("1d)\n",tabulate(pulsutslag_lst, headers=['Color', 'Transmittans høyt blodvolum', "transmittans lavt blodvolum", "kontrast"], tablefmt='grid'))
