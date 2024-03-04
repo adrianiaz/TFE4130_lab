@@ -42,8 +42,6 @@ def main():
         signal = data_array_channel[channel] 
         t = np.arange(0, len(signal)/fs, 1/fs)
 
-        #signal_detrend = detrend(signal)
-        
         #1. apply filter
         signal_filtered = pu.butter_lowpass_filter(signal,lowcut, fs, order) #apply filter
         
@@ -74,10 +72,6 @@ def main():
         plt.tight_layout()
         plt.show()
 
-        #time axis
-        #forventer størst peak for l=0
+        #4. vil ha (#of peaks)/((antall samples i målt intervall)/fs) = [BPS], ganger med 60 for å få BPM
 
-        #vil finne antal samples mellom hver peak, aka. differansen mellom hver peak i lista peaks.
-
-        #for å finne tiden dette tilsvarer, bruker man sampeldifferanse/fs
 main()
