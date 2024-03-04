@@ -25,7 +25,7 @@ def calculate_SNR_fft(pulse, noise):
     maxPulseAmp = np.max(np.abs(pulse_fft))
     meanNoiseAmp = np.mean(np.abs(noise_fft))
     
-    SNR = maxPulseAmp/np.mean(meanNoiseAmp) 
+    SNR = maxPulseAmp/meanNoiseAmp
     return SNR
     
     
