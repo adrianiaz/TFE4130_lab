@@ -34,8 +34,7 @@ def main():
     red = np.array(red)
     green = np.array(green)
     blue = np.array(blue)
-    data_array_channel = np.array([red],[green],[blue]) #values are given in a unit of intensity
-    print("data array channel: ", data_array_channel)
+    data_array_channel = np.array([red,green,blue]) #values are given in a unit of intensity
 
     #Do processing for every channel of color
     for channel in range(len(data_array_channel)):
