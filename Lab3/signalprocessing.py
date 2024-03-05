@@ -31,11 +31,13 @@ def main():
         green.append(row[1])
         blue.append(row[2])
     
+
     #make seperate rgb channels
     red = np.array(red)
     green = np.array(green)
     blue = np.array(blue)
-    data_array_channel = np.array([red,green,blue]) #values are given in a unit of intensity
+    data_array_channel = np.array([red],[green],[blue]) #values are given in a unit of intensity
+    print("data array channel: ", data_array_channel)
 
     #Do processing for every channel of color
     for channel in range(len(data_array_channel)):
@@ -52,6 +54,8 @@ def main():
 
         #3. find the tops in the autocorrelated signals, and the time between tops
         peaks = pu.get_peaks(data_autocorr)
+        
+        color = ['red', 'green', 'blue']
 
         print(peaks)
          # Plot original and filtered signals
@@ -59,7 +63,7 @@ def main():
 
         plt.subplot(2, 1, 1)
         plt.plot(t, signal, label='Original Signal')
-        plt.title('Original Signal')
+        plt.title('Original Signal - ' + color[channel] + ' channel')
         plt.xlabel('Time (seconds)')
         plt.ylabel('Amplitude')
         plt.legend()
