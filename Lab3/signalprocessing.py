@@ -9,7 +9,7 @@ lowcut = 1  # Lower cutoff frequency
 highcut = fs/2 - 1 # Upper cutoff frequency, set according to nyquist theorem, -1 to be below nyquist freq
 order = 8  # Filter order
 
-file_path = "postprocessing/transfinger3.txt"  # Path file to txt samplefile
+file_path = "postprocessing/moritest.txt"  # Path file to txt samplefile
 
 # Create a test signal
 t = np.arange(0, 1, 1/fs)  # 1 second of data
