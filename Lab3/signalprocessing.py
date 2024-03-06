@@ -2,19 +2,15 @@ import numpy as np
 import matplotlib.pyplot as plt
 import processingUtilities as pu
 from scipy.signal import detrend
+from tabulate import tabulate
 
 #Set global variables
 fs = 30  # Sampling frequency
-lowcut = 1  # Lower cutoff frequency
-highcut = fs/2 - 1 # Upper cutoff frequency, set according to nyquist theorem, -1 to be below nyquist freq
+lowcut = 0.5  # Lower cutoff frequency
+highcut = 4 # Upper cutoff frequency
 order = 8  # Filter order
 
 file_path = "postprocessing/moritest.txt"  # Path file to txt samplefile
-
-# Create a test signal
-t = np.arange(0, 1, 1/fs)  # 1 second of data
-signal = np.sin(2 * np.pi * 30 * t) + 0.5 * np.sin(2 * np.pi * 200 * t) # 1 second of data
-
 
 def main():
 
@@ -36,6 +32,8 @@ def main():
     blue = np.array(blue)
     data_array_channel = np.array([red,green,blue]) #values are given in a unit of intensity
 
+
+    bpm_channels = []
     #Do processing for every channel of color
     for channel in range(len(data_array_channel)):
         color = ["red", "green", "blue"]
@@ -48,11 +46,11 @@ def main():
         t_autocorr = np.arange(0, len(data_autocorr_signal)/fs, 1/fs)
 
         #1. apply filter
-        signal_filtered = pu.butter_lowpass_filter(signal,lowcut, fs, order) #apply filter
+        signal_filtered = pu.butter_bandpass_filter(signal,lowcut, highcut, fs, order) #apply filter
         
         #2. autocorrelate signal with itself
         data_autocorr_filtered = pu.autocorrelate(signal_filtered)
-
+        data_autocorr_filtered = data_autocorr_filtered[len(data_autocorr_filtered)//2:] #Only keep the positive values
         t_autocorr_filtered = np.arange(0, len(data_autocorr_filtered)/fs, 1/fs)
 
         #3. find the tops in the autocorrelated signals, and the time between tops
@@ -94,5 +92,14 @@ def main():
         plt.show()
 
         #4. vil ha (#of peaks)/((antall samples i målt intervall)/fs) = [BPS], ganger med 60 for å få BPM
+        N = len(data_autocorr_filtered) #total #of samples
+        T = N/fs #Total time in measurement in seconds
 
+        #beats per minute
+        bpm = (len(peaks)/T)*60
+        bpm_channels.append([color[channel], bpm])
+    print(bpm_channels)
+    print(tabulate(bpm_channels, headers=['color-channel', "Beats per minute"], tablefmt='grid'))
+    
+#Run main        
 main()
