@@ -10,7 +10,7 @@ lowcut = 0.5  # Lower cutoff frequency
 highcut = 4 # Upper cutoff frequency
 order = 8  # Filter order
 
-file_path = "postprocessing/close5.txt"  # Path file to txt samplefile
+file_path = "postprocessing/close30sec-2.txt"  # Path file to txt samplefile
 
 def main():
 
@@ -64,7 +64,7 @@ def main():
          # Plot original and filtered signals
         plt.figure(figsize=(12, 6))
 
-        plt.subplot(4, 1, 1)
+        plt.subplot(5, 1, 1)
         plt.plot(t, signal, label='Raw Signal')
         plt.title('Original Signal - {}'.format(color[channel]))
         plt.xlabel('Time (seconds)')
