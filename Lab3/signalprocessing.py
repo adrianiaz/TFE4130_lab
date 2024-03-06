@@ -10,7 +10,7 @@ lowcut = 0.5  # Lower cutoff frequency
 highcut = 4 # Upper cutoff frequency
 order = 8  # Filter order
 
-file_path = "postprocessing/transfinger1.txt"  # Path file to txt samplefile
+file_path = "postprocessing/close5.txt"  # Path file to txt samplefile
 
 def main():
 
