@@ -7,10 +7,10 @@ from tabulate import tabulate
 #Set global variables
 fs = 30  # Sampling frequency
 lowcut = 0.5  # Lower cutoff frequency
-highcut = 4 # Upper cutoff frequency
+highcut = 2.5 # Upper cutoff frequency
 order = 8  # Filter order
 
-file_path = "postprocessing/close30sec-2.txt"  # Path file to txt samplefile
+file_path = "postprocessing/close1.txt"  # Path file to txt samplefile
 
 def main():
 
