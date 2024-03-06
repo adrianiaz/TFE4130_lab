@@ -47,6 +47,10 @@ def main():
 
         #1. apply filter
         signal_filtered = pu.butter_bandpass_filter(signal,lowcut, highcut, fs, order) #apply filter
+
+        #1.5. apply fft
+        signal_fft_filtered = np.fft.fft(signal_filtered)
+        fft_axis = np.fft.fftfreq(len(signal_fft_filtered), d=1/fs)
         
         #2. autocorrelate signal with itself
         data_autocorr_filtered = pu.autocorrelate(signal_filtered)
@@ -67,24 +71,31 @@ def main():
         plt.ylabel('Amplitude')
         plt.legend()
 
-        plt.subplot(4, 1, 2)
+        plt.subplot(5, 1, 2)
         plt.plot(t, np.real(signal_filtered), label='Filtered Signal')
         plt.title('Filtered Signal')
         plt.xlabel('Time (seconds)')
         plt.ylabel('Amplitude')
         plt.legend()
 
-        plt.subplot(4, 1, 3)
+        plt.subplot(5, 1, 3)
         plt.plot(t_autocorr, data_autocorr_signal, label='unfiltered Signal')
         plt.title('autocorr raw signal')
         plt.xlabel('Time (seconds)')
         plt.ylabel('Amplitude')
         plt.legend()
 
-        plt.subplot(4, 1, 4)
+        plt.subplot(5, 1, 4)
         plt.plot(t_autocorr_filtered, data_autocorr_filtered, label='Filtered Signal')
         plt.title('autocorr filtered signal')
         plt.xlabel('Time (seconds)')
+        plt.ylabel('Amplitude')
+        plt.legend()
+        
+        plt.subplot(5, 1, 5)
+        plt.plot(fft_axis,signal_fft_filtered, label='Filtered Signal fft')
+        plt.title('FFT filtered signal')
+        plt.xlabel('freq (s)')
         plt.ylabel('Amplitude')
         plt.legend()
 
