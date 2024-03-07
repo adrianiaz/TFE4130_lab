@@ -10,7 +10,7 @@ lowcut = 0.5  # Lower cutoff frequency
 highcut = 2.5 # Upper cutoff frequency
 order = 8  # Filter order
 
-file_path = "postprocessing/close1.txt"  # Path file to txt samplefile
+file_path = "postprocessing/moritest.txt"  # Path file to txt samplefile
 
 def main():
 
@@ -64,52 +64,45 @@ def main():
          # Plot original and filtered signals
         plt.figure(figsize=(12, 6))
 
-        plt.subplot(5, 1, 1)
+        plt.subplot(4, 1, 1)
         plt.plot(t, signal, label='Raw Signal')
         plt.title('Original Signal - {}'.format(color[channel]))
         plt.xlabel('Time (seconds)')
         plt.ylabel('Amplitude')
         plt.legend()
 
-        plt.subplot(5, 1, 2)
+        plt.subplot(4, 1, 2)
         plt.plot(t, np.real(signal_filtered), label='Filtered Signal')
         plt.title('Filtered Signal')
         plt.xlabel('Time (seconds)')
         plt.ylabel('Amplitude')
         plt.legend()
 
-        plt.subplot(5, 1, 3)
+        plt.subplot(4, 1, 3)
         plt.plot(t_autocorr, data_autocorr_signal, label='unfiltered Signal')
         plt.title('autocorr raw signal')
         plt.xlabel('Time (seconds)')
         plt.ylabel('Amplitude')
         plt.legend()
 
-        plt.subplot(5, 1, 4)
+        plt.subplot(4, 1, 4)
         plt.plot(t_autocorr_filtered, data_autocorr_filtered, label='Filtered Signal')
         plt.title('autocorr filtered signal')
         plt.xlabel('Time (seconds)')
         plt.ylabel('Amplitude')
         plt.legend()
         
-        plt.subplot(5, 1, 5)
-        plt.plot(fft_axis,signal_fft_filtered, label='Filtered Signal fft')
-        plt.title('FFT filtered signal')
-        plt.xlabel('freq (s)')
-        plt.ylabel('Amplitude')
-        plt.legend()
-
         plt.tight_layout()
         plt.show()
 
-        #4. vil ha (#of peaks)/((antall samples i målt intervall)/fs) = [BPS], ganger med 60 for å få BPM
-        N = len(data_autocorr_filtered) #total #of samples
-        T = N/fs #Total time in measurement in seconds
+        #4. Peak #2 i peaks lista vil gi antall samples, konverter til tid for å finne perioden.
+        N = peaks[1] #total #of samples to first peak
+        T = N/fs #Period of signal in seconds
 
         #beats per minute
-        bpm = (len(peaks)/T)*60
-        bpm_channels.append([color[channel], bpm])
-    print(bpm_channels)
+        bpm = (1/T)*60 #This gives frequency of signal in beats per minute
+        bpm_channels.append([color[channel], bpm]) 
+        print(peaks)
     print(tabulate(bpm_channels, headers=['color-channel', "Beats per minute"], tablefmt='grid'))
     
 #Run main        
