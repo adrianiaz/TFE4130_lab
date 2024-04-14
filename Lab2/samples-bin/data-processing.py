@@ -26,7 +26,7 @@ def raspi_import(path, channels=5):
 # Import data from bin file
 if __name__ == "__main__":
     sample_period, data = raspi_import(sys.argv[1] if len(sys.argv) > 1
-            else 'mic-0-5.bin')
+            else 'mic-45-20.bin')
 
 data=(data/4096)*3.3 #scale data to volts
 data=detrend(data, axis=0, type='constant') #remove DC offset
