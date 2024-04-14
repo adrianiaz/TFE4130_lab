@@ -23,7 +23,7 @@ import cv2
 import numpy as np
 
 
-#Run this from terminal  python3 read_video_from_roi.py ./samples/testvideo.mp4 ./postprocessing/test1.txt 
+#Run this from terminal  python3 read_video_from_roi.py ./samples/close30sec-2.mp4 ./postprocessing/close30sec-2.txt 
 
 #CLI options
 if len(sys.argv) < 3:
