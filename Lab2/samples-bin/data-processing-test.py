@@ -40,8 +40,7 @@ def calculate_angle(data):
 
     x = n21 - n31 - 2 * n32
     y = np.sqrt(3) * (n21 + n31)
-
-    
+        
     # Calculate angle
     angle = np.degrees(np.arctan2(y, x))
     return angle
@@ -61,8 +60,8 @@ def std_dev(values):
     return math.sqrt(variance(values))
 
 if __name__ == "__main__":
-    file_prefixes = ["mic-0", "mic-n45", "mic-n90", "mic-n135", "mic-n180"]
-    file_suffixes = [f"-{i}.bin" for i in range(1, 11)]
+    file_prefixes = ["mic-0", "mic-45", "mic-90", "mic-135", "mic-n45", "mic-n90", "mic-n135", "mic-n180"]
+    file_suffixes = [f"-{i}.bin" for i in range(1, 11)] 
 
     all_angles = [[] for _ in file_prefixes]
 
@@ -75,33 +74,36 @@ if __name__ == "__main__":
                 all_angles[i].append(angle)
             except FileNotFoundError:
                 print(f"File '{filepath}' not found.")
-    all_angles[3][6] = 145 #to cover up from a "wrong" value
-    all_angles[2][0] = 90 #to cover up from a "wrong" value
-    #print(all_angles)
-    xbarlist = []
-    print(all_angles)
-    for i in range(0,5):
+
+    avg_list = []
+    for i in range(0,len(file_prefixes)):
         xsum = 0
         for j in range(0,10):
-            xsum += np.abs(all_angles[i][j])
-        xbar = xsum/10
-        xbarlist.append(xbar)
+            if file_prefixes[i] == "mic-n180" and all_angles[i][j] > 0:
+                xsum += all_angles[i][j] - 360
+            else:
+                xsum += all_angles[i][j] 
+            #print(f"{file_prefixes[i]}-{j+1}.bin: {round(all_angles[i][j], 2)}")
+            #xsum += np.abs(all_angles[i][j])
+        avg = xsum/len(all_angles[i])
+        print(f"{file_prefixes[i]}-{j+1}.bin - Average = {round(avg, 2)}")
+        avg_list.append(avg) 
         
-    varlist = []
-    stdlist = []
-    for i in range(0,5):
+    var_list = []
+    std_list = []
+    for i in range(0,len(file_prefixes)):
         var = 0
         for j in range(0,10):
-            var += ((all_angles[i][j]-xbarlist[i])**2) #could consider using np.abs to get lower values
+            #var += ((np.abs(all_angles[i][j])-xbarlist[i])**2) 
+            if file_prefixes[i] == "mic-n180" and all_angles[i][j] > 0:
+                all_angles[i][j] -= 360
+                var += ((all_angles[i][j]-avg_list[i])**2) 
+            else:
+                var += ((all_angles[i][j]-avg_list[i])**2) 
         var = var/10
-        varlist.append(var)
-        stdlist.append(np.sqrt(var))
-        
-
-    
-    print("xbarlist: ", xbarlist)
-    print("var list: ", varlist)
-    print("std list: ", stdlist)
+        var_list.append(var)
+        print(f"{file_prefixes[i]}-{j+1}.bin - SD = {round(np.sqrt(var), 2)}")
+        std_list.append(np.sqrt(var))
 
         
             
